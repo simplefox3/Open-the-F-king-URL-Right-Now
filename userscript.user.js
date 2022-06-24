@@ -35,7 +35,9 @@
 // @match          https://link.logonews.cn/?*
 // @match          https://link.uisdc.com/?redirect=*
 // @match          https://gitee.com/link?target=*
-// @version        0.16.2
+// @match          https://xie.infoq.cn/link?target=*
+// @match          https://leetcode.cn/link/?target=*
+// @version        0.18.0
 // @run-at         document-idle
 // @namespace      https://old-panda.com/
 // @require        https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
@@ -142,6 +144,13 @@ const $ = jQuery.noConflict(true);
         replaced.add(url);
       }
     }
+
+    // Replace loading image with actual one
+    $("img").each(function (i, obj) {
+      if ($(obj)[0].currentSrc === "data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==") {
+          $(obj).attr("src", $(obj)[0].dataset.src)
+      }
+    })
   }
 
   function redirect(fakeURLStr, trueURLParam, enableBase64 = false) {
@@ -221,7 +230,9 @@ const $ = jQuery.noConflict(true);
     qqmail: { match: 'https://mail.qq.com/cgi-bin/readtemplate', redirect: "gourl" },
     logonews: { match: 'https://link.logonews.cn/?', redirect: "url" },
     uisdc: { match: 'https://link.uisdc.com/?redirect=', redirect: "redirect" },
-    gitee: { match: 'https://gitee.com/link?target=', redirect: "target" }
+    gitee: { match: 'https://gitee.com/link?target=', redirect: "target" },
+    infoq: { match: 'https://xie.infoq.cn/link?target=', redirect: "target" },
+    leetcode: { match: 'https://leetcode.cn/link/?target', redirect: "target" }
   }
 
   $(document).ready(function () {
